@@ -121,7 +121,7 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
               type="file"
               ref={fileInputRef}
               multiple
-              accept=".xlsx,.xls,.xml,.csv"
+              accept=".xlsx,.xls"
               className="hidden"
               onChange={(e) => {
                 if (e.target.files) onFileUpload(e.target.files);

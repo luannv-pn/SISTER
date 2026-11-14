@@ -112,6 +112,14 @@ export const App: React.FC = () => {
       await new Promise((resolve) => setTimeout(resolve, 50));
 
       try {
+        const extension = file.name.split('.').pop()?.toLowerCase();
+        if (extension !== 'xlsx' && extension !== 'xls') {
+          throw new Error('Định dạng chưa được hỗ trợ. Vui lòng chọn tệp Excel .xlsx hoặc .xls.');
+        }
+        if (file.size === 0) {
+          throw new Error('Tệp đang trống.');
+        }
+
         const buffer = await file.arrayBuffer();
         const wb = parseExcelWorkbook(buffer);
         const firstSheetName = wb.SheetNames[0];
@@ -187,7 +195,8 @@ export const App: React.FC = () => {
         }
       } catch (err) {
         console.error(`Lỗi đọc file ${file.name}:`, err);
-        alert(`Không thể đọc "${file.name}": ${String(err)}`);
+        const message = err instanceof Error ? err.message : String(err);
+        alert(`Không thể đọc "${file.name}": ${message}`);
       }
     }
 
